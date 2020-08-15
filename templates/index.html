@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css_file %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" type="text/css">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="text-center">
+      <div class="content-title">
+        <h1>「過去の自分と比較する」</h1>
+        <p>
+          日々の行動を記録し、振り返ることが成長へ近道<br>
+          仕事や趣味、日常生活の変化を視覚化して楽しもう
+        </p>
+      </div>
+  
+      <div class="content-sub-title">
+        <h2><span class="under-line">できること</span></h2>
+      </div>
+
+      <div class="row">
+        <div class="col-4">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">タイマー</h3>
+              <p class="card-text">
+                日々の色んな作業にどれくらい時間がかかるのかを計測できます。
+                昨日の自分より早く作業ができるとちょっと嬉しいかも
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">行動履歴</h3>
+              <p class="card-text">
+                タイマーで記録した作業時間をグラフで視覚化します。
+                昨日よりちょっと頑張れる自分になろう！
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">日記</h3>
+              <p class="card-text">
+                今日の出来事を記録できます。
+                過去の自分の日記が今の自分にヒントをくれるかも！？
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
