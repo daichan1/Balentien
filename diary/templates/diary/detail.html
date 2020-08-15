@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load diary_conversion %}
+{% block content %}
+  <div class="container bg-white p-3">
+    <div class="diary-header mb-5">
+      <h1><strong>{{ diary.title }}</strong></h1>
+      <p>
+        <span class="mr-3">執筆者: {{ diary.user }}</span>
+        <span>最終更新日: {{ diary.updated_at }}</span>
+      </p>
+    </div>
+    {% display_body_markdown diary.body %}
+  </div>
+{% endblock %}

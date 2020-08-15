@@ -1,0 +1,14 @@
+textarea.form-control {
+  height: 70vh;
+  max-height: 550px;
+}
+
+.preview-custom {
+  height: 70vh;
+}
+
+.footer {
+  display: flex;
+  background: #eee;
+  padding: 10px;
+}

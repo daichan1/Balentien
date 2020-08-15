@@ -1,0 +1,32 @@
+.timer {
+  margin-bottom: 30px;
+}
+
+#time {
+  font-size: 30px;
+}
+
+#timer-start {
+  color: #3CF56E;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+#timer-stop {
+  color: #FA0619;
+  font-size: 40px;
+  cursor: pointer;
+  display: none;
+}
+
+.text-large {
+  font-size: 30px;
+}
+
+.form {
+  margin: 0;
+}
+
+.graph {
+  min-width: 100%;
+}

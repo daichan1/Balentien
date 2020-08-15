@@ -1,0 +1,16 @@
+.bg-header {
+  background: #414DE2;
+}
+
+.bg-container {
+  min-height: 100%;
+  background: #f6f6f4;
+}
+
+footer {
+  padding: 20px;
+  color: white;
+  background: #3e3e3e;
+}
+
+/* .codehilite {} */

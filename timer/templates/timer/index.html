@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css_file %}
+<link rel="stylesheet" href="{% static 'timer/css/style.css' %}" type="text/css">
+{% endblock %}
+{% block javascript_file %}
+<script src="{% static 'timer/js/timer.js' %}" type="text/javascript"></script>
+{% endblock %}
+{% load timer_conversion %}
+{% block content %}
+  <div class="container">
+    <div class="timer">
+      <div class="card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-6">
+              <input type="text" id="task-name" class="form-control">
+            </div>
+            <div class="col-3 text-center" id="time"></div>
+            <div class="col-3 text-center" id="icon">
+              <i class="fas fa-play-circle" id="timer-start"></i>
+              <i class="fas fa-stop-circle" id="timer-stop"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="timer-list">
+      <p>Today</p>
+      {% if timers %}
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            {% for timer in timers %}
+              <li class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col-6">
+                    {{ timer.name }}
+                  </div>
+                  <div class="col-3 text-center text-large">
+                    {% display_time_notation timer.elapsed_time %}
+                  </div>
+                  <form action="{% url 'timer:delete' timer.id %}" method="POST" class="form col-3 text-center">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">削除</button>
+                  </form>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

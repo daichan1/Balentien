@@ -1,0 +1,46 @@
+{% load static %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Record</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" type="text/css">
+    {% block css_file %}
+    {% endblock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/0b3d12d9d0.js" crossorigin="anonymous"></script>
+    {% block javascript_file %}
+    {% endblock %}
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-dark bg-header">
+        <h1 class="title">
+          <a href="/" class="text-light">My Record</a>
+        </h1>
+        <ul class="nav">
+          <li class="nav-item"><a href="{% url 'timer:index' %}" class="nav-link text-light">タイマー</a></li>
+          <li class="nav-item"><a href="{% url 'timer:history' %}" class="nav-link text-light">履歴</a></li>
+          <li class="nav-item"><a href="{% url 'diary:index' %}" class="nav-link text-light">日記</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="bg-container pt-3 pb-3">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <footer>
+      <ul class="nav justify-content-center">
+        <li class="nav-item"><a href="{% url 'timer:index' %}" class="nav-link text-light">タイマー</a></li>
+        <li class="nav-item"><a href="{% url 'timer:history' %}" class="nav-link text-light">履歴</a></li>
+        <li class="nav-item"><a href="{% url 'diary:index' %}" class="nav-link text-light">日記</a></li>
+      </ul>
+      <p class="text-center">©︎ 2020 daichan</p>
+    </footer>
+  </body>
+</html>
