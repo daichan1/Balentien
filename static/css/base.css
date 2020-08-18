@@ -13,4 +13,8 @@ footer {
   background: #3e3e3e;
 }
 
+.logout-form {
+  margin-bottom: 0;
+}
+
 /* .codehilite {} */

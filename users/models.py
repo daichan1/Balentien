@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
     return user
 
 class User(AbstractBaseUser):
-  username = models.CharField(max_length=150, unique=True, null=False, blank=False)
+  username = models.CharField(verbose_name='ユーザー名', max_length=20, unique=True, null=False, blank=False)
   email = models.EmailField(verbose_name='メールアドレス', max_length=255, unique=True, null=False, blank=False)
   is_active = models.BooleanField(default=True)
   is_admin = models.BooleanField(default=False)

@@ -19,7 +19,6 @@ class EscapeHtml(Extension):
 @register.simple_tag
 def display_body_markdown(body):
   # 拡張機能追加 + HTMLエスケープ
-  print("test")
   extensions = settings.MARKDOWNX_MARKDOWN_EXTENSIONS + [EscapeHtml()]
   html = markdown.markdown(body, extensions=extensions)
   return mark_safe(html)

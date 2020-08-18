@@ -19,6 +19,7 @@ from my_record import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('users/', include('users.urls')),
     path('timer/', include('timer.urls')),
     path('diary/', include('diary.urls')),
     path('admin/', admin.site.urls),
