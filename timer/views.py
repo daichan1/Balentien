@@ -1,14 +1,14 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.http.response import JsonResponse 
-from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from .models import Timer
 from .forms import TimerForm
 from .utils import HistoryGraph
 import json
 
+@login_required
 def index(request):
   now = timezone.datetime.now()
   timers = Timer.objects.filter(
@@ -18,6 +18,7 @@ def index(request):
   ).order_by("-updated_at")
   return render(request, "timer/index.html", {'timers': timers})
 
+@login_required
 def detail(request):
   params = request.GET
   timer = Timer.objects.filter(
@@ -33,6 +34,7 @@ def detail(request):
     res = {'name': params["name"], 'elapsed_time': 0}
     return JsonResponse(res)
 
+@login_required
 def create(request):
   if request.method == 'POST':
     form = TimerForm(request.POST)
@@ -48,6 +50,7 @@ def create(request):
     res = {'error_message': 'error'}
     return JsonResponse(res)
 
+@login_required
 def update(request, pk):
   timer = get_object_or_404(Timer, pk=pk)
   if request.method == 'POST':
@@ -64,6 +67,7 @@ def update(request, pk):
     res = {'error_message': 'error'}
     return JsonResponse(res)
 
+@login_required
 def delete(request, pk):
   if request.method == 'POST':
     timer = get_object_or_404(Timer, pk=pk)
@@ -72,7 +76,7 @@ def delete(request, pk):
   else:
     raise Http404
 
-
+@login_required
 def history(request):
   now = timezone.datetime.now()
   week = HistoryGraph.display_period_week(now)
@@ -80,6 +84,7 @@ def history(request):
   display_sunday = week['sunday'].strftime('%Y/%m/%d')
   return render(request, 'timer/history.html', {'monday': display_monday, 'sunday': display_sunday})
 
+@login_required
 def get_svg(request):
   # 本当はURLリクエストで日付をするのは調査中
   now = timezone.datetime.now()
