@@ -10,18 +10,18 @@ def index(request):
   month = request.GET.get("month")
   if year and month:
     if year.isdigit() and month.isdigit():
-      diaries = Diary.objects.filter(updated_at__year=year).filter(updated_at__month=month).order_by("-updated_at")
+      diaries = Diary.objects.filter(user_id=request.user.id ,updated_at__year=year, updated_at__month=month).order_by("-updated_at")
     else:
       diaries = []
   else:
     now = timezone.datetime.now()
-    diaries = Diary.objects.filter(updated_at__month=now.month).order_by("-updated_at")
-  dates = Diary.objects.dates('updated_at', 'month', order='DESC')
+    diaries = Diary.objects.filter(user_id=request.user.id ,updated_at__month=now.month).order_by("-updated_at")
+  dates = diaries.dates('updated_at', 'month', order='DESC')
   return render(request, 'diary/index.html', {'diaries': diaries, 'dates': dates})
 
 @login_required
 def detail(request, pk):
-  diary = Diary.objects.get(pk=pk)
+  diary = Diary.objects.get(user_id=request.user.id, pk=pk)
   return render(request, 'diary/detail.html', {'diary': diary})
 
 @login_required
@@ -35,6 +35,7 @@ def create(request):
     form = DiaryForm(request.POST)
     if form.is_valid():
       diary = form.save(commit=False)
+      diary.user_id = request.user.id
       diary.save()
       return redirect('diary:detail', pk=diary.id)
   else:
@@ -43,13 +44,13 @@ def create(request):
 
 @login_required
 def edit(request, pk):
-  diary = Diary.objects.get(pk=pk)
+  diary = Diary.objects.get(user_id=request.user.id, pk=pk)
   form = DiaryForm(instance=diary)
   return render(request, 'diary/edit.html', {'diary': diary, 'form': form})
 
 @login_required
 def update(request, pk):
-  diary = Diary.objects.get(pk=pk)
+  diary = Diary.objects.get(user_id=request.user.id, pk=pk)
   if request.method == "POST":
     form = DiaryForm(request.POST, instance=diary)
     if form.is_valid():
@@ -62,6 +63,6 @@ def update(request, pk):
 
 @login_required
 def delete(request, pk):
-  diary = Diary.objects.get(pk=pk)
+  diary = Diary.objects.get(user_id=request.user.id, pk=pk)
   diary.delete()
   return redirect('diary:index')

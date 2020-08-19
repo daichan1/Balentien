@@ -64,7 +64,7 @@ $(function () {
       url: url,
       type: 'POST',
       dataType: 'json',
-      data: {'name': name, 'elapsed_time': elapsed, 'user': 1},
+      data: {'name': name, 'elapsed_time': elapsed},
       beforeSend: function(xhr, settings) {
         if(!csrfSafeMethod(settings.type) && !this.crossDomain) {
           xhr.setRequestHeader('X-CSRFToken', token);

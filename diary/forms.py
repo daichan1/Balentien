@@ -8,4 +8,4 @@ class DiaryForm(forms.ModelForm):
   class Meta:
     model = Diary
     body = MarkdownxFormField()
-    fields = ('title', 'body', 'user')
+    fields = ('title', 'body')

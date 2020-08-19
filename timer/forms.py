@@ -5,4 +5,4 @@ class TimerForm(forms.ModelForm):
 
   class Meta:
     model = Timer
-    fields = ('name', 'elapsed_time', 'user')
+    fields = ('name', 'elapsed_time')
