@@ -10,12 +10,12 @@ def index(request):
   month = request.GET.get("month")
   if year and month:
     if year.isdigit() and month.isdigit():
-      diaries = Diary.objects.filter(user_id=request.user.id ,updated_at__year=year, updated_at__month=month).order_by("-updated_at")
+      diaries = Diary.objects.filter(user_id=request.user.id, updated_at__year=year, updated_at__month=month).order_by("-updated_at")
     else:
       diaries = []
   else:
     now = timezone.datetime.now()
-    diaries = Diary.objects.filter(user_id=request.user.id ,updated_at__month=now.month).order_by("-updated_at")
+    diaries = Diary.objects.filter(user_id=request.user.id, updated_at__month=now.month).order_by("-updated_at")
   dates = diaries.dates('updated_at', 'month', order='DESC')
   return render(request, 'diary/index.html', {'diaries': diaries, 'dates': dates})
 
