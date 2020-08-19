@@ -15,13 +15,8 @@
         {% render_field form.body class="form-control" placeholder="Markdown形式で本文を書こう" %}
       </div>
       {{ form.media }}
-      <div class="footer">
-        <div class="col">
-          {% render_field form.user class="form-control" %}
-        </div>
-        <div class="text-right">
-          <button type="submit" class="btn btn-primary">更新</button>
-        </div>
+      <div class="text-right">
+        <button type="submit" class="btn btn-primary">更新</button>
       </div>
     </form>
   </div>

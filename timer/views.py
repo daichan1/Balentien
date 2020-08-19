@@ -12,6 +12,7 @@ import json
 def index(request):
   now = timezone.datetime.now()
   timers = Timer.objects.filter(
+    user_id=request.user.id,
     created_at__year=now.year,
     created_at__month=now.month,
     created_at__day=now.day
@@ -22,6 +23,7 @@ def index(request):
 def detail(request):
   params = request.GET
   timer = Timer.objects.filter(
+    user_id=request.user.id,
     name=params["name"],
     created_at__year=params["year"],
     created_at__month=params["month"],
@@ -40,8 +42,9 @@ def create(request):
     form = TimerForm(request.POST)
     if form.is_valid():
       timer = form.save(commit=False)
+      timer.user_id = request.user.id
       timer.save()
-      res = {'name': timer.name, 'elapsed_time': timer.elapsed_time, 'user': timer.user_id}
+      res = {'name': timer.name, 'elapsed_time': timer.elapsed_time}
       return JsonResponse(res)
     else:
       res = {'error_message': '適切な入力値ではありません'}
@@ -52,13 +55,13 @@ def create(request):
 
 @login_required
 def update(request, pk):
-  timer = get_object_or_404(Timer, pk=pk)
+  timer = get_object_or_404(Timer, user_id=request.user.id, pk=pk)
   if request.method == 'POST':
     form = TimerForm(request.POST, instance=timer)
     if form.is_valid():
       update_timer = form.save(commit=False)
       update_timer.save()
-      res = {'name': timer.name, 'elapsed_time': timer.elapsed_time, 'user': timer.user_id}
+      res = {'name': timer.name, 'elapsed_time': timer.elapsed_time}
       return JsonResponse(res)
     else:
       res = {'error_message': '適切な入力値ではありません'}
@@ -70,7 +73,7 @@ def update(request, pk):
 @login_required
 def delete(request, pk):
   if request.method == 'POST':
-    timer = get_object_or_404(Timer, pk=pk)
+    timer = get_object_or_404(Timer, user_id=request.user.id, pk=pk)
     timer.delete()
     return redirect('timer:index')
   else:
@@ -91,7 +94,7 @@ def get_svg(request):
   week = HistoryGraph.display_period_week(now)
   start = timezone.make_aware(week['monday'])
   end = timezone.make_aware(week['sunday'])
-  timers = Timer.objects.filter(user_id=1, created_at__range=(start, end))
+  timers = Timer.objects.filter(user_id=request.user.id, created_at__range=(start, end))
   svg = HistoryGraph.create_graph(timers, start, end)
   response = HttpResponse(svg, content_type='image/svg+xml')
   return response
