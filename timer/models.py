@@ -12,8 +12,6 @@ class Timer(models.Model):
   def __str__(self):
     return self.name
   
-  def conversion_time(self):
-    sec = math.floor(self.elapsed_time % 60)
-    min = math.floor(self.elapsed_time / 60) % 60
-    hour = math.floor(self.elapsed_time / (60 * 60))
-    return sec
+  def conversion_hour_time(self):
+    hour = round(self.elapsed_time / (60 * 60), 2)
+    return hour
