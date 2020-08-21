@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
 import io
+import math
 
 class HistoryGraph():
 
@@ -18,7 +19,7 @@ class HistoryGraph():
 
     mpl.rcParams['font.family'] = 'Hiragino Sans'
     ax = plt.subplot()
-    ax.set(xlabel='日付', ylabel='時間')
+    ax.set(xlabel='日付', ylabel='時間(時)')
     ax.xaxis.set_major_locator(mdates.DayLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d'))
 
@@ -37,7 +38,9 @@ class HistoryGraph():
       before_elapsed_time += elapsed_time
       if before_elapsed_time >= 60:
         ax.set(ylabel='時間(分)')
-
+    
+    y_limit = math.ceil(before_elapsed_time)
+    plt.ylim(0, y_limit)
     svg = self.__plt_to_svg()
     return svg
   
@@ -63,10 +66,9 @@ class HistoryGraph():
 
   def __set_timer_data(self, timers, start, end):
     default_data = self.__set_default_timer_data(start, end)
-    # print(timers.filter(created_at__year=2020, created_at__month=8, created_at__day=13).annotate(c=sum('elapsed_time')).values('c'))
     for timer in timers:
       default_data['date'].append(timer.created_at.strftime('%Y/%m/%d'))
-      default_data['elapsed_time'].append(timer.elapsed_time)
+      default_data['elapsed_time'].append(timer.conversion_hour_time())
     result = {'date': default_data['date'], 'elapsed_time': default_data['elapsed_time']}
     return result
 
