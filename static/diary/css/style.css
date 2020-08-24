@@ -12,3 +12,9 @@ textarea.form-control {
   background: #eee;
   padding: 10px;
 }
+
+@media (max-width: 767px) {
+  #markdown-preview {
+    display: none;
+  }
+}

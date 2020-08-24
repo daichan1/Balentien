@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% load static %}
 {% block css_file %}
-<link rel="stylesheet" href="{% static 'timer/css/style.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'timer/css/history.css' %}" type="text/css">
 {% endblock %}
 {% block content %}
   <div class="container">
-    <div class="row">
-      <div class="col-9">
+    <div class="row history">
+      <div class="col-sm-9">
         <img src="{% url 'timer:graph' %}" alt="グラフ" class="graph">
       </div>
-      <div class="col-3">
+      <div class="col-sm-3">
         <p>週別集計</p>
         <p>{{ monday }}~{{ sunday }}</p>
       </div>

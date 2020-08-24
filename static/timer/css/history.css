@@ -1,0 +1,10 @@
+.graph {
+  width: 100%;
+  min-width: 100%;
+}
+
+@media (max-width: 576px) {
+  .history {
+    flex-direction: column-reverse;
+  }
+}
