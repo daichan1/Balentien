@@ -25,6 +25,7 @@ class HistoryGraph():
 
     before_date = None
     before_elapsed_time = 0
+    total_elapsed_time = 0
     colors = ['b', 'c', 'y', 'r', 'g', 'm']
     for date, elapsed_time in zip(graph_date.index, graph_date.elapsed_time):
       # 日付が異なった場合、0から積み上げ
@@ -36,10 +37,9 @@ class HistoryGraph():
       ax.bar(date, elapsed_time, bottom=before_elapsed_time, color=colors[color_number], label='test')
       before_date = date
       before_elapsed_time += elapsed_time
-      if before_elapsed_time >= 60:
-        ax.set(ylabel='時間(分)')
+      total_elapsed_time += elapsed_time
     
-    y_limit = math.ceil(before_elapsed_time)
+    y_limit = math.ceil(total_elapsed_time)
     plt.ylim(0, y_limit)
     svg = self.__plt_to_svg()
     return svg

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block css_file %}
-<link rel="stylesheet" href="{% static 'timer/css/style.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'timer/css/index.css' %}" type="text/css">
 {% endblock %}
 {% block javascript_file %}
 <script src="{% static 'timer/js/timer.js' %}" type="text/javascript"></script>
@@ -37,7 +37,7 @@
                   <div class="col-6">
                     {{ timer.name }}
                   </div>
-                  <div class="col-3 text-center text-large">
+                  <div class="col-3 text-center text-large elapsed-time">
                     {% display_time_notation timer.elapsed_time %}
                   </div>
                   <form action="{% url 'timer:delete' timer.id %}" method="POST" class="form col-3 text-center">

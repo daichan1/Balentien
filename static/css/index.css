@@ -13,3 +13,13 @@
 .under-line {
   border-bottom: 1px solid black;
 }
+
+@media (max-width: 768px) {
+  .content-title h1 {
+    font-size: 1.7rem;
+  }
+
+  .content-sub-title h2 {
+    font-size: 1.6rem;
+  }
+}

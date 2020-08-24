@@ -27,6 +27,8 @@
   margin: 0;
 }
 
-.graph {
-  min-width: 100%;
+@media (max-width: 560px) {
+  #time, .elapsed-time {
+    font-size: 0.8rem;
+  }
 }

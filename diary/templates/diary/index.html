@@ -1,43 +1,43 @@
 {% extends "base.html" %}
+{% load static %}
+{% block javascript_file %}
+<script src="{% static 'diary/js/diary.js' %}" type="text/javascript"></script>
+{% endblock %}
 {% block content %}
   <div class="container bg-white">
     <a href="{% url 'diary:new' %}" class="btn btn-success mt-3 mb-3">新規作成</a>
-    <div class="row">
-      <div class="col-8">
-        {% if diaries %}
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">タイトル</th>
-                <th scope="col">更新日</th>
-                <th scope="col" colspan="2">各種ボタン</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for diary in diaries %}
-                <form action="{% url 'diary:delete' diary.id %}">
-                  <tr>
-                    <td><a href="{% url 'diary:detail' diary.id %}">{{ diary.title }}</a></td>
-                    <td>{{ diary.updated_at }}</td>
-                    <td><a href="{% url 'diary:edit' diary.id %}" class="btn btn-success">編集</a></td>
-                    <td><button type="submit" class="btn btn-danger">削除</button></td>
-                  </tr>
-                </form>
-              {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <p>お探しの日記が見つかりませんでした</p>
-        {% endif %}
-        </div>
-      <div class="col-4">
-          <ul class="list-group">
-            <li class="list-group-item disabled" aria-disabled="true">年月フィルター</li>
-            {% for date in dates %}
-              <li class="list-group-item"><a href="{% url 'diary:index'%}?year={{ date.year }}&month={{ date.month }}">{{ date.year }}年{{ date.month }}月</a></li>
-            {% endfor %}
-          </ul>
-      </div>
+
+    <div class="w-50 mb-3">
+      <select name="date-filter" id="date-filter" class="form-control">
+        <option value="">年月フィルター</option>
+        {% for date in dates %}
+          <option value="{{ date.year }}年{{ date.month }}月">{{ date.year }}年{{ date.month }}月</option>
+        {% endfor %}
+      </select>
     </div>
+
+    {% if diaries %}
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">タイトル</th>
+            <th scope="col" colspan="2">各種ボタン</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for diary in diaries %}
+            <form action="{% url 'diary:delete' diary.id %}">
+              <tr>
+                <td><a href="{% url 'diary:detail' diary.id %}">{{ diary.title }}</a></td>
+                <td><a href="{% url 'diary:edit' diary.id %}" class="btn btn-success">編集</a></td>
+                <td><button type="submit" class="btn btn-danger">削除</button></td>
+              </tr>
+            </form>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>お探しの日記が見つかりませんでした</p>
+    {% endif %}
   </div>
 {% endblock %}
