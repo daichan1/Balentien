@@ -151,3 +151,6 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = [
 ]
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
+# ログインセッションタイムアウト時間(1日)
+SESSION_COOKIE_AGE = 86400
