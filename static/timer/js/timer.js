@@ -21,8 +21,10 @@ $(function () {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
   };
 
+  const worker = new Worker('/static/timer/js/worker.js');
+
   // 経過時間(秒)
-  let elapsed = localStorage.getItem('elapsed') ? localStorage.getItem('elapsed') : 0;
+  let elapsed = 0;
   let timerIntervalId = null;
   let timer = null;
   const clockCycle = 60;
@@ -32,7 +34,7 @@ $(function () {
     const url = '/timer/detail/';
     const name = $('#task-name').val();
     const now = new Date();
-    const year = now.getFullYear(); 
+    const year = now.getFullYear();
     const month = now.getMonth() + 1;
     const day = now.getDate();
     $.ajax({
@@ -41,12 +43,11 @@ $(function () {
       dataType: 'json',
       data: {'name': name, 'year': year, 'month': month, 'day': day},
       success: function(data) {
-        localStorage.setItem('isStart', true);
         elapsed = data.elapsed_time;
         updateTime();
         displayStopTimer();
         $('#task-name').prop('disabled', true);
-        MeasurementElapsedTime();
+        backgroundTimerProcess();
         timer = data;
       },
       error: function(data) {
@@ -94,16 +95,6 @@ $(function () {
     $('#timer-stop').show();
   };
 
-  function MeasurementElapsedTime() {
-    if(timerIntervalId !== null) { return; }
-    console.log(timerIntervalId)
-    timerIntervalId = setInterval(function() {
-      elapsed++;
-      localStorage.setItem('elapsed', elapsed);
-      updateTime();
-    }, 1000);
-  };
-
   function updateTime() {
     const sec = elapsed % clockCycle;
     const min = Math.floor(elapsed / clockCycle) % clockCycle;
@@ -117,28 +108,18 @@ $(function () {
   };
 
   function timerStop() {
+    backgroundTimerProcess();
     clearInterval(timerIntervalId);
     timerIntervalId = null;
-    localStorage.removeItem('elapsed');
-    localStorage.removeItem('isStart');
-    localStorage.removeItem('task');
   };
 
-  $('#task-name').change(function(e) {
-    localStorage.setItem('task', e.target.value)
-  });
-
-  $(window).on('load', function() {
-    if(localStorage.getItem('isStart')) {
-      $('#task-name').val(localStorage.getItem('task'));
-      console.log("test")
-      // MeasurementElapsedTime();
-    }
-  });
-
-  $(window).on('beforeunload', function(e) { 
-    // timerIntervalId = null;
-    // MeasurementElapsedTime();
-  });
+  function backgroundTimerProcess() {
+    worker.postMessage({'intervalId': timerIntervalId, 'elapsed': elapsed});
+    worker.onmessage = function(event) {
+      timerIntervalId = event.data.intervalId;
+      elapsed = event.data.elapsed;
+      updateTime();
+    };
+  }
 
 });
