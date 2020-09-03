@@ -6,17 +6,14 @@
   font-size: 30px;
 }
 
-#timer-start {
-  color: #3CF56E;
-  font-size: 40px;
-  cursor: pointer;
+#timer-stop {
+  display: none;
 }
 
-#timer-stop {
-  color: #FA0619;
-  font-size: 40px;
+.timer-button {
+  width: 50px;
+  height: 50px;
   cursor: pointer;
-  display: none;
 }
 
 .text-large {
