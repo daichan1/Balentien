@@ -31,8 +31,13 @@ $(function () {
   $('#time').val(updateTime());
 
   $('#timer-start').click(function() {
-    const url = '/timer/detail/';
     const name = $('#task-name').val();
+    // スペースは空白判定
+    if(!name.trim()) {
+      alert('名前を入力してください');
+      return; 
+    }
+    const url = '/timer/detail/';
     const now = new Date();
     const year = now.getFullYear();
     const month = now.getMonth() + 1;
