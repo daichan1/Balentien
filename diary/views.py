@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import Diary
@@ -22,7 +22,7 @@ def index(request):
 
 @login_required
 def detail(request, pk):
-  diary = Diary.objects.get(user_id=request.user.id, pk=pk)
+  diary = get_object_or_404(Diary, pk=pk)
   return render(request, 'diary/detail.html', {'diary': diary})
 
 @login_required
@@ -45,7 +45,7 @@ def create(request):
 
 @login_required
 def edit(request, pk):
-  diary = Diary.objects.get(user_id=request.user.id, pk=pk)
+  diary = get_object_or_404(Diary, pk=pk)
   form = DiaryForm(instance=diary)
   return render(request, 'diary/edit.html', {'diary': diary, 'form': form})
 
