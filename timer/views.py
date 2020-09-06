@@ -55,7 +55,7 @@ def create(request):
 
 @login_required
 def update(request, pk):
-  timer = get_object_or_404(Timer, user_id=request.user.id, pk=pk)
+  timer = Timer.objects.get(user_id=request.user.id, pk=pk)
   if request.method == 'POST':
     form = TimerForm(request.POST, instance=timer)
     if form.is_valid():
@@ -73,7 +73,7 @@ def update(request, pk):
 @login_required
 def delete(request, pk):
   if request.method == 'POST':
-    timer = get_object_or_404(Timer, user_id=request.user.id, pk=pk)
+    timer = Timer.objects.get(user_id=request.user.id, pk=pk)
     timer.delete()
     return redirect('timer:index')
   else:
